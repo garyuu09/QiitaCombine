@@ -8,16 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = ArticlesViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                ForEach(viewModel.articles, id: \.self) { article in
+                    Text(article.title)
+                }
+            }
+            .navigationBarTitle("Qiita Articles")
         }
-        .padding()
+        .onAppear {
+            viewModel.loadArticles()
+        }
     }
 }
+
 
 #Preview {
     ContentView()
